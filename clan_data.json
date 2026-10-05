@@ -46,5 +46,11 @@
     "th": 14,
     "role": "Member",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "Abib",
+    "th": 13,
+    "role": "Elder",
+    "status": "Не готов ❌"
   }
 ]
