@@ -178,5 +178,11 @@
     "th": 13,
     "role": "Member",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "HERO",
+    "th": 13,
+    "role": "Member",
+    "status": "Не готов ❌"
   }
 ]
