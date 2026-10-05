@@ -16,5 +16,11 @@
     "th": 15,
     "role": "Leader",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "Тень",
+    "th": 14,
+    "role": "Elder",
+    "status": "Не готов ❌"
   }
 ]
