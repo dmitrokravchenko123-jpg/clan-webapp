@@ -10,5 +10,11 @@
     "th": 15,
     "role": "Member",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "Dmitro",
+    "th": 15,
+    "role": "Leader",
+    "status": "Не готов ❌"
   }
 ]
