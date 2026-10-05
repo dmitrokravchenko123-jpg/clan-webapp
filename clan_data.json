@@ -28,5 +28,11 @@
     "th": 13,
     "role": "Elder",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "Critter",
+    "th": 14,
+    "role": "Co-Leader",
+    "status": "Не готов ❌"
   }
 ]
