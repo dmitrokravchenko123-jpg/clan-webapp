@@ -52,5 +52,11 @@
     "th": 13,
     "role": "Elder",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "sparTan",
+    "th": 13,
+    "role": "Co-Leader",
+    "status": "Не готов ❌"
   }
 ]
