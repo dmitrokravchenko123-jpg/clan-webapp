@@ -1,98 +1,156 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Clan Hub</title>
   <!-- Офіційний скрипт Telegram WebApp -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
+    :root {
+      --bg-color: var(--tg-theme-bg-color, #18191c);
+      --text-color: var(--tg-theme-text-color, #ffffff);
+      --card-bg: var(--tg-theme-secondary-bg-color, #232428);
+      --accent: var(--tg-theme-button-color, #e09f3e);
+      --btn-text: var(--tg-theme-button-text-color, #ffffff);
+      --hint: var(--tg-theme-hint-color, #9e9e9e);
+    }
+
     body {
       margin: 0;
       padding: 16px;
-      background-color: var(--tg-theme-bg-color, #18191c);
-      color: var(--tg-theme-text-color, #ffffff);
+      background-color: var(--bg-color);
+      color: var(--text-color);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     h1 {
-      font-size: 20px;
-      margin-bottom: 4px;
-      color: var(--tg-theme-accent-text-color, #ffaa00);
+      font-size: 22px;
+      margin: 0 0 4px 0;
+      color: var(--text-color);
     }
 
     .subtitle {
       font-size: 13px;
-      color: var(--tg-theme-hint-color, #888888);
+      color: var(--hint);
       margin-bottom: 20px;
     }
 
     .card {
-      background: var(--tg-theme-secondary-bg-color, #232428);
-      border-radius: 12px;
-      padding: 14px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px;
       margin-bottom: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.15s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: transform 0.1s ease;
     }
 
     .card:active {
       transform: scale(0.98);
     }
 
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
     .badge {
-      display: inline-block;
       padding: 3px 8px;
       border-radius: 6px;
       font-size: 11px;
-      font-weight: bold;
-      background: #ffaa00;
-      color: #000;
-      margin-left: 6px;
+      font-weight: 700;
+      background: #e09f3e;
+      color: #1a1a1a;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--hint);
+      margin-top: 8px;
+      line-height: 1.4;
     }
 
     .btn {
       display: block;
       width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background: var(--tg-theme-button-color, #2481cc);
-      color: var(--tg-theme-button-text-color, #ffffff);
-      border: none;
-      border-radius: 10px;
+      padding: 14px;
+      margin-top: 20px;
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
       font-size: 15px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
+      text-align: center;
+      transition: background 0.2s ease;
+    }
+
+    .btn:active {
+      background: rgba(255, 255, 255, 0.1);
     }
   </style>
 </head>
 <body>
-  <h1 id="user-name">Привіт, Боєць! 👋</h1>
-  <div class="subtitle">Панель керування кланом</div>
+
+  <h1 id="user-name">Привет, Воин! 👋</h1>
+  <div class="subtitle">Панель управления кланом Dark of War</div>
 
   <div class="card">
-    <div style="font-size: 16px; font-weight: bold;">
-      ⚔ Стан клану <span class="badge">Війни</span>
+    <div class="card-header">
+      <span>⚔️ Клановая Война</span>
+      <span class="badge">В процессе</span>
     </div>
-    <p style="font-size: 13px; color: #bbb; margin: 8px 0 0 0;">
-      Тут відображатиметься інформація про КВ, героїв та активність бійців.
-    </p>
+    <div class="card-desc">
+      Здесь будет отображаться живой статус КВ, оставшиеся атаки и подсчёт звёзд.
+    </div>
   </div>
 
-  <button class="btn" onclick="sendDataToBot()">Закрити вікно</button>
+  <div class="card">
+    <div class="card-header">
+      <span>🛡️️ Состав и Аудит</span>
+      <span class="badge" style="background:#4da3ff; color:#fff;">Игроки</span>
+    </div>
+    <div class="card-desc">
+      Просмотр прокачки героев, уровней ТХ и готовности соклановцев к боевым вылазкам.
+    </div>
+  </div>
+
+  <button id="close-btn" class="btn">Закрыть панель</button>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand(); // Розгортає на весь екран
+    // Инициализация Telegram WebApp
+    const tg = window.Telegram?.WebApp;
 
-    // Отримуємо ім'я юзера з Telegram
-    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      document.getElementById('user-name').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}! 👋`;
-    }
+    if (tg) {
+      tg.ready();
+      tg.expand();
 
-    function sendDataToBot() {
-      tg.close();
+      // Подстановка имени игрока из Telegram
+      if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const user = tg.initDataUnsafe.user;
+        const name = user.first_name || user.username || "Воин";
+        document.getElementById('user-name').innerText = `Привет, ${name}! 👋`;
+      }
+
+      // Обработка кнопки закрытия с виброоткликом
+      document.getElementById('close-btn').addEventListener('click', () => {
+        if (tg.HapticFeedback) {
+          tg.HapticFeedback.impactOccurred('medium');
+        }
+        tg.close();
+      });
+    } else {
+      // Запасной вариант при открытии в обычном браузере
+      document.getElementById('close-btn').addEventListener('click', () => {
+        window.close();
+      });
     }
   </script>
 </body>
