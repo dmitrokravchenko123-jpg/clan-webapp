@@ -130,5 +130,11 @@
     "th": 14,
     "role": "Member",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "Dark_of_Legend",
+    "th": 9,
+    "role": "Elder",
+    "status": "Не готов ❌"
   }
 ]
