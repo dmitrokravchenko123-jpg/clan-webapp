@@ -29,7 +29,6 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
-    /* Анімація перемикання екранів */
     .screen {
       display: none;
       animation: fadeIn 0.2s ease-in-out;
@@ -55,7 +54,6 @@
       margin-bottom: 20px;
     }
 
-    /* Клікабельні картки */
     .menu-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -97,7 +95,6 @@
       line-height: 1.4;
     }
 
-    /* Елементи всередині екранів */
     .stat-box {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -124,6 +121,10 @@
       justify-content: space-between;
       padding: 10px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .player-row:last-child {
+      border-bottom: none;
     }
 
     .th-badge {
@@ -158,7 +159,6 @@
     <h1 id="user-name">Привет, Воин! 👋</h1>
     <div class="subtitle">Панель управления кланом Dark of War</div>
 
-    <!-- Клік 1: Війна -->
     <div class="menu-card" onclick="openScreen('screen-war')">
       <div class="card-header">
         <span>⚔️ Клановая Война</span>
@@ -169,7 +169,6 @@
       </div>
     </div>
 
-    <!-- Клік 2: Склад -->
     <div class="menu-card" onclick="openScreen('screen-members')">
       <div class="card-header">
         <span>🛡 Состав и Аудит</span>
@@ -208,33 +207,14 @@
     </div>
   </div>
 
-  <!-- ЕКРАН 2: СКЛАД КЛАНУ ТА АУДИТ -->
+  <!-- ЕКРАН 2: СКЛАД КЛАНУ (Динамічний) -->
   <div id="screen-members" class="screen">
     <h1>🛡 Состав Клана</h1>
     <div class="subtitle">Список бойцов и герои</div>
 
-    <div class="stat-box">
-      <div class="player-row">
-        <div>
-          <span class="th-badge">ТХ 16</span>
-          <b>Лидер Клана</b>
-        </div>
-        <span style="font-size:12px; color:#22c55e">КВ готов ✅</span>
-      </div>
-      <div class="player-row">
-        <div>
-          <span class="th-badge">ТХ 13</span>
-          <b>Dmytro_2</b>
-        </div>
-        <span style="font-size:12px; color:#f59e0b">Рашер ⚠️</span>
-      </div>
-      <div class="player-row">
-        <div>
-          <span class="th-badge">ТХ 14</span>
-          <b>Warrior Pro</b>
-        </div>
-        <span style="font-size:12px; color:#22c55e">КВ готов ✅</span>
-      </div>
+    <!-- Сюди скрипт сам підставить гравців -->
+    <div id="members-list" class="stat-box">
+      <div style="color: var(--hint); padding: 8px; text-align: center;">Загрузка состава...</div>
     </div>
   </div>
 
@@ -251,7 +231,6 @@
         document.getElementById('user-name').innerText = `Привет, ${name}! 👋`;
       }
 
-      // Натискання системної кнопки "Назад" у Telegram
       tg.BackButton.onClick(() => {
         haptic();
         openScreen('screen-home');
@@ -269,13 +248,60 @@
       }
     }
 
-    // Перемикання екранів
+    // Завантаження реальних даних із файлу clan_data.json
+    async function loadRealClanData() {
+      const container = document.getElementById('members-list');
+      container.innerHTML = '<div style="color: var(--hint); padding: 8px; text-align: center;">Загрузка состава...</div>';
+
+      try {
+        // Додаємо випадковий параметр часу, щоб браузер не кешував старі дані
+        const response = await fetch('clan_data.json?v=' + Date.now());
+        
+        if (!response.ok) {
+          throw new Error('Файл не найден');
+        }
+
+        const players = await response.json();
+
+        if (!players || players.length === 0) {
+          container.innerHTML = '<div style="color: var(--hint); padding: 8px; text-align: center;">Состав пуст</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        players.forEach(p => {
+          const isReady = p.status && p.status.includes('готов');
+          const color = isReady ? '#22c55e' : '#f59e0b';
+
+          container.innerHTML += `
+            <div class="player-row">
+              <div>
+                <span class="th-badge">ТХ ${p.th || '?'}</span>
+                <b>${p.name || 'Без имени'}</b>
+              </div>
+              <span style="font-size:12px; color:${color}">${p.status || ''}</span>
+            </div>
+          `;
+        });
+      } catch (e) {
+        container.innerHTML = `
+          <div style="color:#ef4444; padding:8px; text-align: center; font-size:13px;">
+            ⚠️ clan_data.json ещё не создан или не загружен на GitHub.
+          </div>
+        `;
+      }
+    }
+
     function openScreen(screenId) {
       haptic();
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
       document.getElementById(screenId).classList.add('active');
 
-      // Керування кнопкою "Назад" у шапці Telegram
+      // Якщо відкрили екран зі складом — підтягуємо дані
+      if (screenId === 'screen-members') {
+        loadRealClanData();
+      }
+
       if (tg) {
         if (screenId === 'screen-home') {
           tg.BackButton.hide();
