@@ -82,5 +82,11 @@
     "th": 13,
     "role": "Elder",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "Hlep",
+    "th": 14,
+    "role": "Member",
+    "status": "Не готов ❌"
   }
 ]
