@@ -40,5 +40,11 @@
     "th": 14,
     "role": "Co-Leader",
     "status": "Не готов ❌"
+  },
+  {
+    "name": "my namee",
+    "th": 14,
+    "role": "Member",
+    "status": "Не готов ❌"
   }
 ]
