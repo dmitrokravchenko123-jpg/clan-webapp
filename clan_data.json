@@ -24,6 +24,12 @@
     "status": "Не готов ❌"
   },
   {
+    "name": "maksymka",
+    "th": 14,
+    "role": "Co-Leader",
+    "status": "Не готов ❌"
+  },
+  {
     "name": "Dmitro_",
     "th": 13,
     "role": "Elder",
@@ -31,12 +37,6 @@
   },
   {
     "name": "Critter",
-    "th": 14,
-    "role": "Co-Leader",
-    "status": "Не готов ❌"
-  },
-  {
-    "name": "maksymka",
     "th": 14,
     "role": "Co-Leader",
     "status": "Не готов ❌"
@@ -60,20 +60,26 @@
     "status": "Не готов ❌"
   },
   {
-    "name": "Dmitro_2",
-    "th": 13,
-    "role": "Elder",
-    "status": "Не готов ❌"
-  },
-  {
     "name": "APØLØN",
     "th": 14,
     "role": "Member",
     "status": "Не готов ❌"
   },
   {
+    "name": "Dmitro_2",
+    "th": 13,
+    "role": "Elder",
+    "status": "Не готов ❌"
+  },
+  {
     "name": "t.s_Black",
     "th": 13,
+    "role": "Member",
+    "status": "Не готов ❌"
+  },
+  {
+    "name": "RimaRi",
+    "th": 14,
     "role": "Member",
     "status": "Не готов ❌"
   },
@@ -114,7 +120,13 @@
     "status": "Не готов ❌"
   },
   {
-    "name": "CurTicOrn",
+    "name": "KhaN_3",
+    "th": 14,
+    "role": "Member",
+    "status": "Не готов ❌"
+  },
+  {
+    "name": "Ab1shka",
     "th": 13,
     "role": "Member",
     "status": "Не готов ❌"
@@ -126,31 +138,7 @@
     "status": "Не готов ❌"
   },
   {
-    "name": "KhaN_3",
-    "th": 14,
-    "role": "Member",
-    "status": "Не готов ❌"
-  },
-  {
-    "name": "Dark_of_Legend",
-    "th": 9,
-    "role": "Elder",
-    "status": "Не готов ❌"
-  },
-  {
-    "name": "Dark_of_Ghost",
-    "th": 9,
-    "role": "Elder",
-    "status": "Не готов ❌"
-  },
-  {
-    "name": "matyharadinee",
-    "th": 11,
-    "role": "Member",
-    "status": "Не готов ❌"
-  },
-  {
-    "name": "Ab1shka",
+    "name": "CurTicOrn",
     "th": 13,
     "role": "Member",
     "status": "Не готов ❌"
@@ -162,6 +150,30 @@
     "status": "Не готов ❌"
   },
   {
+    "name": "RimaRi",
+    "th": 14,
+    "role": "Member",
+    "status": "Не готов ❌"
+  },
+  {
+    "name": "Dark_of_Legend",
+    "th": 10,
+    "role": "Elder",
+    "status": "Не готов ❌"
+  },
+  {
+    "name": "Dark_of_Ghost",
+    "th": 10,
+    "role": "Elder",
+    "status": "Не готов ❌"
+  },
+  {
+    "name": "matyharadinee",
+    "th": 11,
+    "role": "Member",
+    "status": "Не готов ❌"
+  },
+  {
     "name": "Vip$$$",
     "th": 13,
     "role": "Member",
@@ -169,18 +181,12 @@
   },
   {
     "name": "亗Denis亗",
-    "th": 4,
+    "th": 5,
     "role": "Member",
     "status": "Не готов ❌"
   },
   {
     "name": "Даня",
-    "th": 13,
-    "role": "Member",
-    "status": "Не готов ❌"
-  },
-  {
-    "name": "HERO",
     "th": 13,
     "role": "Member",
     "status": "Не готов ❌"
