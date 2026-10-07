@@ -378,14 +378,23 @@ async function loadRealWarData() {
 }
 
     function openScreen(screenId) {
-      haptic();
-      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
+    try {
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+            window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+        }
+    } catch (e) {}
 
-      // Якщо відкрили екран зі складом — підтягуємо дані
-      if (screenId === 'screen-members') {
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) {
+        target.classList.add('active');
+    }
+
+    // Якщо відкрили екран зі складом – підтягуємо дані
+    if (screenId === 'screen-members' || screenId === 'members' || screenId === 'clan') {
         loadRealClanData();
-      }
+    }
+}
 
       if (tg) {
         if (screenId === 'screen-home') {
@@ -394,7 +403,6 @@ async function loadRealWarData() {
           tg.BackButton.show();
         }
       }
-    }
 // Автоматичний запуск завантаження даних
         loadRealClanData();
         loadRealWarData();
