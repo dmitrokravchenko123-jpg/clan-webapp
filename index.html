@@ -34,13 +34,12 @@ body {
 }
 
 .screen {
-  display: none;
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: none !important;
 }
 
 .screen.active {
     display: block !important;
-    opacity: 1 !important;
+    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
@@ -224,18 +223,36 @@ h1 {
       </div>
     </div>
 
-    <div class="menu-card" onclick="openScreen('screen-members')">
-      <div class="card-header">
+    <!-- КАРТКА У ГОЛОВНОМУ МЕНЮ (вставляти всередину screen-home) -->
+<div class="menu-card" onclick="openScreen('screen-members')">
+    <div class="card-header">
         <span>🛡 Состав и Аудит</span>
         <span class="badge badge-members">Игроки</span>
-      </div>
-      <div class="card-desc">
-        Просмотр прокачки героев, уровней ТХ и готовности к боевым вылазкам.
-      </div>
     </div>
+    <div class="card-desc">
+        Просмотр прокачки героев, уровней ТХ и готовности к боевым вылазкам.
+    </div>
+</div>
 
-    <button id="close-btn" class="btn-close">Закрыть панель</button>
-  </div>
+<!-- ========================================== -->
+<!-- ЕКРАН 2: СКЛАД КЛАНУ (окремий повноцінний блок) -->
+<!-- ========================================== -->
+<div id="screen-members" class="screen">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <button type="button" onclick="openScreen('screen-home')" class="btn-close" style="width: auto; padding: 6px 14px; margin: 0; cursor: pointer;">
+            ← Назад
+        </button>
+        <h2 style="margin: 0; font-size: 18px;">🛡 Состав Клана</h2>
+        <div style="width: 50px;"></div>
+    </div>
+    
+    <div class="subtitle" style="text-align: center; margin-bottom: 14px;">Список бойцов и герои</div>
+
+    <!-- Сюди скрипт рендерить список -->
+    <div id="members-list" class="stat-box">
+        <div style="color: var(--hint); padding: 12px; text-align: center;">Загрузка состава...</div>
+    </div>
+</div>
 
   <!-- ЕКРАН 1: КЛАНОВА ВІЙНА -->
   <div id="screen-war" class="screen">
@@ -289,49 +306,56 @@ h1 {
       }
     }
 
-    // Завантаження реальних даних із файлу clan_data.json
-    async function loadRealClanData() {
-      const container = document.getElementById('members-list');
-      container.innerHTML = '<div style="color: var(--hint); padding: 8px; text-align: center;">Загрузка состава...</div>';
+    // Завантаження складу клану з clan_data.json
+async function loadRealClanData() {
+    const container = document.getElementById('members-list');
+    if (!container) return;
 
-      try {
-        // Додаємо випадковий параметр часу, щоб браузер не кешував старі дані
+    container.innerHTML = '<div style="color: var(--hint); padding: 12px; text-align: center;">Загрузка состава...</div>';
+
+    try {
         const response = await fetch('clan_data.json?v=' + Date.now());
-        
         if (!response.ok) {
-          throw new Error('Файл не найден');
+            throw new Error('Файл clan_data.json не знайдено на сервері (статус: ' + response.status + ')');
         }
 
         const players = await response.json();
 
-        if (!players || players.length === 0) {
-          container.innerHTML = '<div style="color: var(--hint); padding: 8px; text-align: center;">Состав пуст</div>';
-          return;
+        if (!Array.isArray(players) || players.length === 0) {
+            container.innerHTML = '<div style="color: var(--hint); padding: 12px; text-align: center;">Состав пуст</div>';
+            return;
         }
 
-        container.innerHTML = '';
+        let html = '';
         players.forEach(p => {
-          const isReady = p.status && p.status.includes('готов');
-          const color = isReady ? '#22c55e' : '#f59e0b';
+            const statusText = p.status || '';
+            const isReady = statusText.toLowerCase().includes('готов');
+            const color = isReady ? '#22c55e' : '#f59e0b';
+            const th = p.th || '?';
+            const name = p.name || 'Без имени';
 
-          container.innerHTML += `
-            <div class="player-row">
-              <div>
-                <span class="th-badge">ТХ ${p.th || '?'}</span>
-                <b>${p.name || 'Без имени'}</b>
-              </div>
-              <span style="font-size:12px; color:${color}">${p.status || ''}</span>
-            </div>
-          `;
+            html += `
+                <div class="player-row">
+                    <div style="display: flex; align-items: center;">
+                        <span class="th-badge">TX ${th}</span>
+                        <b>${name}</b>
+                    </div>
+                    <span style="font-size: 12px; color: ${color}; font-weight: 500;">${statusText}</span>
+                </div>
+            `;
         });
-      } catch (e) {
+
+        container.innerHTML = html;
+    } catch (e) {
+        console.error('Помилка завантаження clan_data:', e);
         container.innerHTML = `
-          <div style="color:#ef4444; padding:8px; text-align: center; font-size:13px;">
-            ⚠️ clan_data.json ещё не создан или не загружен на GitHub.
-          </div>
+            <div style="color: #ef4444; padding: 12px; text-align: center; font-size: 13px;">
+                ⚠️ Не удалось загрузить данные состава.<br>
+                <small style="color: var(--hint);">${e.message}</small>
+            </div>
         `;
-      }
     }
+}
 
 async function loadRealWarData() {
   const box = document.getElementById('war-stat-box');
@@ -379,36 +403,22 @@ async function loadRealWarData() {
   }
 }
 
-    function openScreen(screenId) {
-    // 1. Ховаємо всі екрани
-    document.querySelectorAll('.screen').forEach(el => {
-        el.classList.remove('active');
-        el.style.display = 'none';
-    });
+    // Перемикач екранів
+function openScreen(screenId) {
+    // 1. Приховуємо всі екрани
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(s => s.classList.remove('active'));
 
-    // 2. Показуємо обраний екран
+    // 2. Активуємо цільовий
     const target = document.getElementById(screenId);
     if (target) {
         target.classList.add('active');
-        target.style.display = 'block';
     }
 
-    // 3. Якщо це екран складу – запускаємо завантаження
-    if (screenId === 'screen-members' || screenId === 'members' || screenId === 'clan') {
+    // 3. Якщо відкрили склад — оновлюємо дані
+    if (screenId === 'screen-members') {
         loadRealClanData();
     }
-
-    // 4. Безпечний виклик BackButton тільки якщо версія дозволяє
-    try {
-        const tg = window.Telegram?.WebApp;
-        if (tg && tg.isVersionAtLeast && tg.isVersionAtLeast('6.1')) {
-            if (screenId === 'screen-home') {
-                tg.BackButton.hide();
-            } else {
-                tg.BackButton.show();
-            }
-        }
-    } catch (e) {}
 }
 // Автоматичний запуск завантаження даних
         loadRealClanData();
