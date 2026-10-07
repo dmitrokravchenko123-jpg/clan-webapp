@@ -249,8 +249,9 @@ h1 {
 
   <!-- ЕКРАН 2: СКЛАД КЛАНУ (Динамічний) -->
   <div id="screen-members" class="screen">
+    <button onclick="openScreen('screen-home')" class="btn-close" style="width: auto; padding: 6px 14px; margin-bottom: 12px;">← Назад</button>
     <h1>🛡 Состав Клана</h1>
-    <div class="subtitle">Список бойцов и герои</div>
+    ...
 
     <!-- Сюди скрипт сам підставить гравців -->
     <div id="members-list" class="stat-box">
@@ -379,38 +380,32 @@ async function loadRealWarData() {
 }
 
     function openScreen(screenId) {
-    try {
-        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-            window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-        }
-    } catch (e) {}
-
-    // Ховаємо всі екрани
+    // 1. Ховаємо всі екрани
     document.querySelectorAll('.screen').forEach(el => {
         el.classList.remove('active');
         el.style.display = 'none';
     });
 
-    // Показуємо потрібний екран
+    // 2. Показуємо обраний екран
     const target = document.getElementById(screenId);
     if (target) {
         target.classList.add('active');
         target.style.display = 'block';
     }
 
-    // Якщо відкрили екран зі складом – оновлюємо дані
+    // 3. Якщо це екран складу – запускаємо завантаження
     if (screenId === 'screen-members' || screenId === 'members' || screenId === 'clan') {
         loadRealClanData();
     }
 
-    // Безпечне керування кнопкою «Назад» всередині функції
+    // 4. Безпечний виклик BackButton тільки якщо версія дозволяє
     try {
-        const webapp = window.Telegram?.WebApp;
-        if (webapp && webapp.BackButton) {
+        const tg = window.Telegram?.WebApp;
+        if (tg && tg.isVersionAtLeast && tg.isVersionAtLeast('6.1')) {
             if (screenId === 'screen-home') {
-                webapp.BackButton.hide();
+                tg.BackButton.hide();
             } else {
-                webapp.BackButton.show();
+                tg.BackButton.show();
             }
         }
     } catch (e) {}
