@@ -1,5 +1,5 @@
 {
-  "state": "In War",
+  "state": "War Ended",
   "opponent_name": "Клан:  #2R902U2G2",
   "our_stars": 27,
   "enemy_stars": 11,
@@ -7,5 +7,5 @@
   "enemy_destr": 30.5,
   "attacks_left": 2,
   "total_attacks": 15,
-  "time_left": "0ч 26мин"
+  "time_left": "0ч 0мин"
 }
