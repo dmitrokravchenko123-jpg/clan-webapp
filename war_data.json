@@ -1,11 +1,11 @@
 {
   "state": "In War",
-  "opponent_name": "king of clan",
-  "our_stars": 9,
-  "enemy_stars": 0,
-  "our_destr": 20.0,
-  "enemy_destr": 0.0,
+  "opponent_name": "BXN",
+  "our_stars": 5,
+  "enemy_stars": 9,
+  "our_destr": 14.6,
+  "enemy_destr": 22.5,
   "attacks_left": 12,
   "total_attacks": 15,
-  "time_left": "22ч 16мин"
+  "time_left": "22ч 13мин"
 }
