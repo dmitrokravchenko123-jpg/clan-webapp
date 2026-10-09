@@ -3,7 +3,7 @@
     "name": "Infernus",
     "th": 16,
     "role": "Co-Leader",
-    "status": "КВ готов ✅"
+    "status": "Не готов ❌"
   },
   {
     "name": "МеЧтЫ_С6уДуТсЯ",
@@ -126,6 +126,12 @@
     "status": "Не готов ❌"
   },
   {
+    "name": "CurTicOrn",
+    "th": 14,
+    "role": "Member",
+    "status": "КВ готов ✅"
+  },
+  {
     "name": "KhaN_3",
     "th": 14,
     "role": "Member",
@@ -144,12 +150,6 @@
     "status": "Не готов ❌"
   },
   {
-    "name": "CurTicOrn",
-    "th": 13,
-    "role": "Member",
-    "status": "КВ готов ✅"
-  },
-  {
     "name": "КоСяН",
     "th": 13,
     "role": "Member",
@@ -166,12 +166,6 @@
     "th": 10,
     "role": "Elder",
     "status": "Не готов ❌"
-  },
-  {
-    "name": "matyharadinee",
-    "th": 11,
-    "role": "Member",
-    "status": "КВ готов ✅"
   },
   {
     "name": "Vip$$$",
